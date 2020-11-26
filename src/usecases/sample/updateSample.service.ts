@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import SampleEntity from "src/entities/sample.entity";
 import { SampleModel } from "src/models/sample.model";
-import ISamplePresenter from "src/presenters/interfaces/sample.presenter.usecase";
+import ISamplePresenter from "src/presenters/interfaces/sample.presenter.interface";
 import SamplePresenter from "src/presenters/sample.presenter";
 import UpdateSampleRequest from "src/repositories/dto/updateSample.dto";
 import ISampleRepository from "src/repositories/interfaces/sample.repository.interface";
