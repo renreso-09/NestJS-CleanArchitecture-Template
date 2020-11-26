@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import SampleEntity from "src/entities/sample.entity";
+import SampleEntity from "src/dto/entities/sample.entity";
 import { SampleModel } from "src/models/sample.model";
 import ISamplePresenter from "./interfaces/sample.presenter.interface";
 

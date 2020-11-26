@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import SampleEntity from "src/entities/sample.entity";
-import UpdateSampleRequest from "src/repositories/dto/updateSample.dto";
+import CreateSampleRequest from "src/dto/createSample.request.dto";
+import SampleEntity from "src/dto/entities/sample.entity";
+import UpdateSampleRequest from "src/dto/updateSample.dto";
+import CreateSampleService from "src/usecases/sample/createSample.service";
 import DeleteSampleService from "src/usecases/sample/deleteSample.service";
 import GetAllSampleService from "src/usecases/sample/getAllSample.service";
 import GetSampleService from "src/usecases/sample/getSample.service";
@@ -10,11 +12,12 @@ import UpdateSampleService from "src/usecases/sample/updateSample.service";
 @ApiTags("Sample")
 @Controller("sample")
 export default class SampleController {
-  constructor (
+  constructor(
     private readonly getSampleService: GetSampleService,
     private readonly getAllSampleService: GetAllSampleService,
     private readonly updateSampleService: UpdateSampleService,
-    private readonly deleteSampleService: DeleteSampleService
+    private readonly deleteSampleService: DeleteSampleService,
+    private readonly createSampleService: CreateSampleService
   ) { }
 
   @Get(':id')
@@ -49,9 +52,25 @@ export default class SampleController {
     }
   }
 
+  @Post()
+  @ApiOperation({
+    description: "情報を新規登録"
+  })
+  @ApiResponse({
+    status: 201
+  })
+  async create(@Body() request: CreateSampleRequest): Promise<SampleEntity> {
+    try {
+      var result = await this.createSampleService.execute(request);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   @Put(':id')
   @ApiOperation({
-    description: "指定したIdの情報を更新する"
+    description: "指定したIdの情報を更新"
   })
   @ApiResponse({
     status: 201
@@ -60,14 +79,14 @@ export default class SampleController {
     try {
       var result = await this.updateSampleService.execute(id, request);
       return result;
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }
 
   @Delete(':id')
   @ApiOperation({
-    description: "指定したidの情報を削除する"
+    description: "指定したidの情報を削除"
   })
   @ApiResponse({
     status: 201
