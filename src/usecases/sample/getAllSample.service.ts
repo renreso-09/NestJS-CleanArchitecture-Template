@@ -1,24 +1,23 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { sample } from "rxjs-compat/operator/sample";
 import SampleEntity from "src/entities/sample.entity";
 import { SampleModel } from "src/models/sample.model";
 import ISamplePresenter from "src/presenters/interfaces/sample.presenter.usecase";
 import SamplePresenter from "src/presenters/sample.presenter";
 import ISampleRepository from "src/repositories/interfaces/sample.repository.interface";
 import SampleRepository from "src/repositories/sample.repository";
-import IGetAllSampleService from "./interfaces/getAllSamples.interfaces";
+import GetAllSampleUsecase from "./interfaces/getAllSamples.usecase";
 
 @Injectable()
-export default class GetAllSampleService implements IGetAllSampleService {
+export default class GetAllSampleService implements GetAllSampleUsecase {
   constructor(
     @Inject(SampleRepository)
-    private SampleRepository : ISampleRepository,
+    private SampleRepository: ISampleRepository,
 
     @Inject(SamplePresenter)
-    private SamplePresenter : ISamplePresenter
-  ) {}
+    private SamplePresenter: ISamplePresenter
+  ) { }
 
-  async execute() : Promise<SampleEntity[]> {
+  async execute(): Promise<SampleEntity[]> {
     const sampleModel: SampleModel[] = await this.SampleRepository.getAllSample();
     console.log(sampleModel);
     const response: SampleEntity[] = sampleModel.map(x => this.SamplePresenter.convertToEntity(x));
