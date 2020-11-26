@@ -5,19 +5,19 @@ import ISamplePresenter from "src/presenters/interfaces/sample.presenter.usecase
 import SamplePresenter from "src/presenters/sample.presenter";
 import ISampleRepository from "src/repositories/interfaces/sample.repository.interface";
 import SampleRepository from "src/repositories/sample.repository";
-import IGetSampleService from "./interfaces/getSample.interface";
+import GetSampleUsecase from "./interfaces/getSample.usecase";
 
 @Injectable()
-export default class GetSampleService implements IGetSampleService {
-  constructor (
+export default class GetSampleService implements GetSampleUsecase {
+  constructor(
     @Inject(SampleRepository)
-    private SampleRepository : ISampleRepository,
+    private SampleRepository: ISampleRepository,
 
     @Inject(SamplePresenter)
-    private SamplePresenter : ISamplePresenter
-  ) {}
+    private SamplePresenter: ISamplePresenter
+  ) { }
 
-  async execute(id: string) : Promise<SampleEntity> {
+  async execute(id: string): Promise<SampleEntity> {
     const sampleModel: SampleModel = await this.SampleRepository.getOneSample(id);
     const response: SampleEntity = this.SamplePresenter.convertToEntity(sampleModel);
     return response;

@@ -1,5 +1,5 @@
 import SampleEntity from "src/entities/sample.entity";
 
-export default interface IGetAllSampleService {
+export default interface GetAllSampleUsecase {
   execute(id: string): Promise<SampleEntity[]>
 }
